@@ -107,15 +107,15 @@ Tomcat started.
 
 启动成功，浏览器输入云服务器实例分配的公网IP地址，加8080端口看能否有小猫猫出现。例如 http://118.190.204.146:8080/。
 
-<img src="aliyun-pic/1.jpg" width="95%"/>
+<img src="aliyun-pic/1.png" width="95%"/>
 
 **注意：此时若访问不通，则可能是服务器实例，没有开通8080端口。看下边，配置云服务器安全组**
 
  + 1-5）配置云服务器安全组
 
 登录阿里云服务器ECS，打开控制台，按以下图片操作
-<img src="aliyun-pic/2.jpg" width="95%"/>
-<img src="aliyun-pic/3.jpg" width="95%"/>
+<img src="aliyun-pic/2.png" width="95%"/>
+<img src="aliyun-pic/3.png" width="95%"/>
 如需多个端口，可添加多条记录。
 
  + 1-6）安装 Mysql（未完待续......）
