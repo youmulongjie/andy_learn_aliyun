@@ -1,7 +1,7 @@
 **前提：小白学习阿里云服务器，记录笔记。我的云服务器 操作系统是   CentOS  7.6 64位。**
 
 # 1、云服务器ECS 安装开发环境
-  + 1-1）下载安装包
+  + ### 1-1）下载安装包
 
     下载开发需要的基本环境：JDK8、Tomcat8、Mysql5。
 
@@ -9,7 +9,7 @@
     链接：https://pan.baidu.com/s/1QhWxYOPp4CF0Vu7y_Dld6Q&shfl=sharepset <br>
     提取码：5q8i 
 
-  + 1-2）将安装包放在云服务器上
+  + ### 1-2）将安装包放在云服务器上
 
     首先，用 xshell登录云服务器，并创建安装包存放目录
     ```
@@ -17,7 +17,7 @@
     ```
     通过FileZilla或者xftp工具将安装包导入 该目录下。
 
- + 1-3）安装 JDK8
+ + ### 1-3）安装 JDK8
 
     进入 /home/temp 目录，将 jdk-8u11-linux-x64.tar.gz 解压并复制到 /usr/local 文件夹下。切换到 /usr/local 文件夹下，创建软连接 java 文件夹，便于以后更改 jdk 版本。
 
@@ -63,7 +63,7 @@
     Java HotSpot(TM) 64-Bit Server VM (build 25.11-b03, mixed mode)
     ```
 
- + 1-4）安装 Tomcat8
+ + ### 1-4）安装 Tomcat8
 
     安装方法同上（安装JDK）。
 
@@ -110,12 +110,12 @@
 
     **注意：此时若访问不通，则可能是服务器实例，没有开通8080端口。看下边，配置云服务器安全组**
 
- + 1-5）配置云服务器安全组
+ + ### 1-5）配置云服务器安全组
 
     登录阿里云服务器ECS，打开控制台，按以下图片操作
     <img src="aliyun-pic/2.png" width="95%"/>
     <img src="aliyun-pic/3.png" width="95%"/>
     如需多个端口，可添加多条记录。
 
- + 1-6）安装 Mysql（未完待续......）
+ + ### 1-6）安装 Mysql（未完待续......）
 
