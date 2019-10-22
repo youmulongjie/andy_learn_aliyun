@@ -358,15 +358,15 @@
     
       设置密码：
     
-      <img src="aliyun/5.png" width="98%"/>
+      <img src="aliyun-pic/5.png" width="98%"/>
     
       将启动方法修改为后端启动：
     
-      <img src="aliyun/6.png" width="98%"/>
+      <img src="aliyun-pic/6.png" width="98%"/>
     
       修改链接（需要慎重）：
     
-      <img src="aliyun/7.png" width="98%"/>
+      <img src="aliyun-pic/7.png" width="98%"/>
     
     + 5、启动 redis，并使用客户端
     
