@@ -302,8 +302,7 @@
       datadir=/usr/local/mysql/data
       ```
     
-       <img src="aliyun-pic/4.jpg" width="98%"/>
-
+       <img src="aliyun-pic/4.png" width="98%"/>
     
       10）启动mysql，加入开机启动
     
