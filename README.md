@@ -104,7 +104,7 @@
     Tomcat started.
     ```
 
-    启动成功，浏览器输入云服务器实例分配的公网IP地址，加8080端口看能否有小猫猫出现。例如 http://118.190.204.146:8080/
+    启动成功，浏览器输入云服务器实例分配的公网IP地址，加8080端口看能否有小猫猫出现。例如 http://119.192.205.186:8080/
 
     <img src="aliyun-pic/1.png" width="95%"/>
 
@@ -164,34 +164,7 @@
       ```
       [root@andy mysql]# yum install libaio*
       （回车，以下是日志）
-      Loaded plugins: fastestmirror
-      Determining fastest mirrors
-      base                                                                             | 3.6 kB  00:00:00     
-      epel                                                                             | 5.3 kB  00:00:00     
-      extras                                                                           | 2.9 kB  00:00:00     
-      updates                                                                          | 2.9 kB  00:00:00     
-      (1/7): epel/x86_64/group_gz                                                      |  88 kB  00:00:00     
-      (2/7): epel/x86_64/updateinfo                                                    | 1.0 MB  00:00:00     
-      (3/7): base/7/x86_64/group_gz                                                    | 165 kB  00:00:00     
-      (4/7): updates/7/x86_64/primary_db                                               | 1.9 MB  00:00:00     
-      (5/7): base/7/x86_64/primary_db                                                  | 6.0 MB  00:00:00     
-      (6/7): extras/7/x86_64/primary_db                                                | 152 kB  00:00:00     
-      (7/7): epel/x86_64/primary_db                                                    | 6.9 MB  00:00:00     
-      Resolving Dependencies
-      --> Running transaction check
-      ---> Package libaio.x86_64 0:0.3.109-13.el7 will be installed
-      ---> Package libaio-devel.x86_64 0:0.3.109-13.el7 will be installed
-      --> Finished Dependency Resolution
-      
-      Dependencies Resolved
-      
-      ========================================================================================================
-       Package                    Arch                 Version                       Repository          Size
-      ========================================================================================================
-      Installing:
-       libaio                     x86_64               0.3.109-13.el7                base                24 k
-       libaio-devel               x86_64               0.3.109-13.el7                base                13 k
-      
+      ......
       Transaction Summary
       ========================================================================================================
       Install  2 Packages
@@ -204,22 +177,6 @@
       (1/2): libaio-devel-0.3.109-13.el7.x86_64.rpm                                    |  13 kB  00:00:00     
       (2/2): libaio-0.3.109-13.el7.x86_64.rpm                                          |  24 kB  00:00:00     
       --------------------------------------------------------------------------------------------------------
-      Total                                                                   204 kB/s |  37 kB  00:00:00     
-      Running transaction check
-      Running transaction test
-      Transaction test succeeded
-      Running transaction
-      Warning: RPMDB altered outside of yum.
-      ** Found 2 pre-existing rpmdb problem(s), 'yum check' output follows:
-      2:postfix-2.10.1-7.el7.x86_64 has missing requires of libmysqlclient.so.18()(64bit)
-      2:postfix-2.10.1-7.el7.x86_64 has missing requires of libmysqlclient.so.18(libmysqlclient_18)(64bit)
-        Installing : libaio-0.3.109-13.el7.x86_64                                                         1/2 
-        Installing : libaio-devel-0.3.109-13.el7.x86_64                                                   2/2 
-        Verifying  : libaio-0.3.109-13.el7.x86_64                                                         1/2 
-        Verifying  : libaio-devel-0.3.109-13.el7.x86_64                                                   2/2 
-      
-      Installed:
-        libaio.x86_64 0:0.3.109-13.el7                  libaio-devel.x86_64 0:0.3.109-13.el7                 
       
       Complete!
       [root@andy mysql]# yum install -y libaio libaio-devel
@@ -350,7 +307,91 @@
     
     + 3、配置云服务器安全组，添加3306端口（详情见 "[1-5）配置云服务器安全组](#1-5）配置云服务器安全组)"）
     
- + ### 1-7）安装 redis（未完待续......）
+ + ### 1-7）安装 redis
+    + 1、安装 gcc。以下命令逐一执行一遍。
+    
+      ```
+      [root@andy ~]yum install cpp  
+      [root@andy ~]yum install binutils
+      [root@andy ~]yum install glibc-kernheaders
+      [root@andy ~]yum install glibc-common
+      [root@andy ~]yum install glibc-devel
+      [root@andy ~]yum install gcc
+      [root@andy ~]yum install make
+      ```
+    
+    + 2、下载 redis tar包。切换到 /home/temp 目录下，下载 tar包，并解压到 /use/local 目录。切换到 /usr/local/redis-5.0.3 目录下，执行 make 命令 安装。
+    
+      ```
+      [root@andy ~]# cd /home/temp
+      [root@andy temp]wget http://download.redis.io/releases/redis-5.0.3.tar.gz
+      （...下载过程）
+      [root@andy temp]# tar xzf redis-5.0.3.tar.gz -C /usr/local
+      [root@andy temp]# cd /usr/local/redis-5.0.3/
+      [root@andy redis-5.0.3]# make
+      （...安装过程）
+      make[1]: Leaving directory `/usr/local/redis-5.0.3/src'
+      ```
+    
+    + 3、创建 redis 目录。
+    
+      ​		创建 /usr/local/redis 目录。
+    
+      ​		切换到 /usr/local/redis-5.0.3/src 目录下，并将 src 目录下的 redis-cli      、redis-server 复制到 /usr/local/redis 目录下。
+    
+      ​		切换到 redis-5.0.3 目录下，将 redis.conf 复制到 /usr/local/redis 目录下。
+    
+      ```
+      [root@andy redis-5.0.3]# mkdir /usr/local/redis
+      [root@andy src]# cd src
+      [root@andy src]# cp redis-cli redis-server /usr/local/redis
+      [root@andy src]# cd ..
+      [root@andy redis-5.0.3]# cp redis.conf /usr/local/redis
+      ```
+    
+    + 4、编辑 redis.conf。通过vim编辑 redis.conf ，将启动方式修改为后端启动，并设置redis密码。
+    
+      ```
+      [root@andy redis-5.0.3]# cd /usr/lcoal/redis
+      [root@andy redis]# vim redis.conf
+      ```
+    
+      设置密码：
+    
+      <img src="aliyun/5.png" width="98%"/>
+    
+      将启动方法修改为后端启动：
+    
+      <img src="aliyun/6.png" width="98%"/>
+    
+      修改链接（需要慎重）：
+    
+      <img src="aliyun/7.png" width="98%"/>
+    
+    + 5、启动 redis，并使用客户端
+    
+      ```
+      [root@andy redis]# ./redis-server redis.conf
+      5466:C 22 Oct 2019 17:17:37.170 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+      5466:C 22 Oct 2019 17:17:37.170 # Redis version=5.0.3, bits=64, commit=00000000, modified=0, pid=5466, just started
+      5466:C 22 Oct 2019 17:17:37.170 # Configuration loaded
+      
+      ```
+    
+      ​       用 redis-cli 工具连接测试
+    
+      ```
+      [root@andy redis]# ./redis-cli 
+      127.0.0.1:6379> auth 你设置的密码
+      OK
+      127.0.0.1:6379> set myName andy
+      OK
+      127.0.0.1:6379> get myName
+      "andy"
+      127.0.0.1:6379> 
+      ```
+    
+    + 6、配置云服务器安全组，添加6379端口（详情见 "[1-5）配置云服务器安全组](#1-5）配置云服务器安全组)"）
  
 ## 欢迎交流
 + QQ
