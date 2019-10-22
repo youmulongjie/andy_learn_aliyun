@@ -117,5 +117,248 @@
     <img src="aliyun-pic/3.png" width="95%"/>
     如需多个端口，可添加多条记录。
 
- + ### 1-6）安装 Mysql（未完待续......）
+ + ### 1-6）安装 Mysql
+    + 1、卸载 mariadb
+    
+      阿里云ECS默认安装了mariadb数据库，安装mysql前先卸载
+    
+      ```
+      [root@andy ~]# rpm -qa|grep mariadb
+      mariadb-libs-5.5.60-1.el7_5.x86_64
+      [root@andy ~]# rpm -e --nodeps mariadb-libs-5.5.60-1.el7_5.x86_64
+      [root@andy ~]# rpm -qa|grep mariadb
+      ```
+    
+    + 2、安装 mysql
+    
+      1）切换到 /home/temp 目录下，将 mysql-5.7.22-linux-glibc2.12-x86_64.tar.gz 解压并复制到 /usr/local。
+    
+      ```
+      [root@andy ~]# cd /home/temp/
+      [root@andy temp]# tar -zxf mysql-5.7.22-linux-glibc2.12-x86_64.tar.gz -C /usr/local
+      ```
+    
+      2）切换到 /usr/local，创建软连接文件夹 mysql。
+    
+      ```
+      [root@andy temp]# cd /usr/local/
+      [root@andy local]# ln -s mysql-5.7.22-linux-glibc2.12-x86_64/ mysql
+      ```
+    
+      3）添加系统 mysql组，添加mysql用户。
+    
+      ```
+      [root@andy local]# groupadd mysql
+      [root@andy local]# useradd -r -g mysql mysql
+      ```
+    
+      4）切换到 /mysql 目录，设置当前目录拥有者为mysql用户
+    
+      ```
+      [root@andy local]# cd mysql
+      [root@andy mysql]# chown -R mysql:mysql ./
+      ```
+    
+      5）安装 libaio、libaio-devel
+    
+      ```
+      [root@andy mysql]# yum install libaio*
+      （回车，以下是日志）
+      Loaded plugins: fastestmirror
+      Determining fastest mirrors
+      base                                                                             | 3.6 kB  00:00:00     
+      epel                                                                             | 5.3 kB  00:00:00     
+      extras                                                                           | 2.9 kB  00:00:00     
+      updates                                                                          | 2.9 kB  00:00:00     
+      (1/7): epel/x86_64/group_gz                                                      |  88 kB  00:00:00     
+      (2/7): epel/x86_64/updateinfo                                                    | 1.0 MB  00:00:00     
+      (3/7): base/7/x86_64/group_gz                                                    | 165 kB  00:00:00     
+      (4/7): updates/7/x86_64/primary_db                                               | 1.9 MB  00:00:00     
+      (5/7): base/7/x86_64/primary_db                                                  | 6.0 MB  00:00:00     
+      (6/7): extras/7/x86_64/primary_db                                                | 152 kB  00:00:00     
+      (7/7): epel/x86_64/primary_db                                                    | 6.9 MB  00:00:00     
+      Resolving Dependencies
+      --> Running transaction check
+      ---> Package libaio.x86_64 0:0.3.109-13.el7 will be installed
+      ---> Package libaio-devel.x86_64 0:0.3.109-13.el7 will be installed
+      --> Finished Dependency Resolution
+      
+      Dependencies Resolved
+      
+      ========================================================================================================
+       Package                    Arch                 Version                       Repository          Size
+      ========================================================================================================
+      Installing:
+       libaio                     x86_64               0.3.109-13.el7                base                24 k
+       libaio-devel               x86_64               0.3.109-13.el7                base                13 k
+      
+      Transaction Summary
+      ========================================================================================================
+      Install  2 Packages
+      
+      Total download size: 37 k
+      Installed size: 46 k
+      Is this ok [y/d/N]: y
+      （输入 Y）
+      Downloading packages:
+      (1/2): libaio-devel-0.3.109-13.el7.x86_64.rpm                                    |  13 kB  00:00:00     
+      (2/2): libaio-0.3.109-13.el7.x86_64.rpm                                          |  24 kB  00:00:00     
+      --------------------------------------------------------------------------------------------------------
+      Total                                                                   204 kB/s |  37 kB  00:00:00     
+      Running transaction check
+      Running transaction test
+      Transaction test succeeded
+      Running transaction
+      Warning: RPMDB altered outside of yum.
+      ** Found 2 pre-existing rpmdb problem(s), 'yum check' output follows:
+      2:postfix-2.10.1-7.el7.x86_64 has missing requires of libmysqlclient.so.18()(64bit)
+      2:postfix-2.10.1-7.el7.x86_64 has missing requires of libmysqlclient.so.18(libmysqlclient_18)(64bit)
+        Installing : libaio-0.3.109-13.el7.x86_64                                                         1/2 
+        Installing : libaio-devel-0.3.109-13.el7.x86_64                                                   2/2 
+        Verifying  : libaio-0.3.109-13.el7.x86_64                                                         1/2 
+        Verifying  : libaio-devel-0.3.109-13.el7.x86_64                                                   2/2 
+      
+      Installed:
+        libaio.x86_64 0:0.3.109-13.el7                  libaio-devel.x86_64 0:0.3.109-13.el7                 
+      
+      Complete!
+      [root@andy mysql]# yum install -y libaio libaio-devel
+      （回车，以下是日志）
+      Loaded plugins: fastestmirror
+      Loading mirror speeds from cached hostfile
+      Package libaio-0.3.109-13.el7.x86_64 already installed and latest version
+      Package libaio-devel-0.3.109-13.el7.x86_64 already installed and latest version
+      Nothing to do
+      ```
+    
+      6）安装 mysql 数据库，命令 bin/mysqld --initialize --user=mysql --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data，记录临时密码（**重要，后边修改密码要用到**），我的临时密码是：/epdAbU7,3CK
+    
+      ```
+      [root@andy mysql]# bin/mysqld --initialize --user=mysql --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data
+      （回车，以下是日志）
+      2019-10-19T13:50:03.897327Z 0 [Warning] TIMESTAMP with implicit DEFAULT value is deprecated. Please use --explicit_defaults_for_timestamp server option (see documentation for more details).
+      2019-10-19T13:50:04.977013Z 0 [Warning] InnoDB: New log files created, LSN=45790
+      2019-10-19T13:50:05.096715Z 0 [Warning] InnoDB: Creating foreign key constraint system tables.
+      2019-10-19T13:50:05.202565Z 0 [Warning] No existing UUID has been found, so we assume that this is the first time that this server has been started. Generating a new UUID: 5aed0cdd-f277-11e9-91a5-00163e055571.
+      2019-10-19T13:50:05.205240Z 0 [Warning] Gtid table is not ready to be used. Table 'mysql.gtid_executed' cannot be opened.
+      2019-10-19T13:50:05.205731Z 1 [Note] A temporary password is generated for root@localhost: /epdAbU7,3CK
+      [root@andy mysql]# 
+      ```
+    
+      7）创建 **RSA private key**，修改当前目录拥有者是mysql用户，修改当前 data目录拥有者是mysql用户
+    
+      ```
+      [root@andy mysql]# bin/mysql_ssl_rsa_setup --datadir=/usr/local/mysql/data
+      （回车，以下是日志）
+      Generating a 2048 bit RSA private key
+      ...............+++
+      .+++
+      writing new private key to 'ca-key.pem'
+      -----
+      Generating a 2048 bit RSA private key
+      .........................+++
+      ...+++
+      writing new private key to 'server-key.pem'
+      -----
+      Generating a 2048 bit RSA private key
+      ............+++
+      .................................+++
+      writing new private key to 'client-key.pem'
+      -----
+      [root@andy mysql]# chown -R mysql:mysql ./
+      [root@andy mysql]# chown -R mysql:mysql data
+      ```
+    
+      8）配置my.cnf。通过 vim /etc/my.cnf 编辑，将以下内容复制进去即可（按 i 键开始编辑，粘贴后回车，按 esc 键退出编辑，输入 :wq! 回车退出vim）
+    
+      ```
+      [mysqld]
+      character_set_server=utf8
+      init_connect='SET NAMES utf8'
+      basedir=/usr/local/mysql
+      datadir=/usr/local/mysql/data
+      socket=/tmp/mysql.sock #不区分大小写
+      lower_case_table_names=1 #不开启sql严格模式
+      sql_mode=STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
+      log-error=/var/log/mysqld.log
+      pid-file=/usr/local/mysql/data/mysqld.pid
+      
+      [mysql]
+      default-character-set=utf8
+      
+      ```
+    
+      9）添加开机启动，并 编辑 /etc/inti.d/mysqld，
+    
+      ```
+      [root@andy mysql]# cp /usr/local/mysql/support-files/mysql.server /etc/init.d/mysqld
+      [root@andy mysql]# vim /etc/init.d/mysqld
+      ```
+    
+      ​       通过上下箭头键找到 basedir、datadir 添加以下路径，效果图下图
+    
+      ```
+      basedir=/usr/local/mysql
+      datadir=/usr/local/mysql/data
+      ```
+    
+       <img src="aliyun-pic/4.jpg" width="98%"/>
+
+    
+      10）启动mysql，加入开机启动
+    
+      ```
+      [root@andy mysql]# service mysqld start
+      Starting MySQL. [  OK  ]
+      [root@andy mysql]# chkconfig -add mysqld
+      ```
+    
+      11）登录，并修改密码
+    
+      ```
+      [root@andy mysql]# mysql -uroot -p
+      Enter password: （输入临时密码）
+      Welcome to the MySQL monitor.  Commands end with ; or \g.
+      Your MySQL connection id is 2
+      Server version: 5.7.22
+      
+      Copyright (c) 2000, 2018, Oracle and/or its affiliates. All rights reserved.
+      
+      Oracle is a registered trademark of Oracle Corporation and/or its
+      affiliates. Other names may be trademarks of their respective
+      owners.
+      
+      Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+      
+      mysql> alert user 'root'@'localhost' identified by 'root'
+          -> 
+          -> ;
+      ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'alert user 'root'@'localhost' identified by 'root'' at line 1
+      （修改密码）
+      mysql> alter user 'root'@'localhost' identified by 'root';
+      Query OK, 0 rows affected (0.00 sec)
+      （刷新权限）
+      mysql> flush privileges;
+      Query OK, 0 rows affected (0.00 sec)
+      （添加用户：111111为用户密码，test为用户名）
+      mysql> grant all privileges on *.* to 'test'@'%' identified by '111111' with grant option;
+      Query OK, 0 rows affected, 1 warning (0.01 sec)
+      
+      mysql> exit
+      ```
+    
+      12）安装完成，可以使用工具连接数据库了
+    
+    + 3、配置云服务器安全组，添加3306端口（详情见 "[1-5）配置云服务器安全组](#1-5）配置云服务器安全组)"）
+    
+ + ### 1-7）安装 redis（未完待续......）
+ 
+## 欢迎交流
++ QQ
+    
+    <img src="doc/594580820.jpg" width="15%" alt="Andy.wang的QQ"/>
++ 微信
+
+    <img src="doc/wx.jpg" width="15%" alt="Andy.wang的微信"/>
+
 
