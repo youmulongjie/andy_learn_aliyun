@@ -396,7 +396,17 @@
       127.0.0.1:6379> shutdown
       ```
     
-    + 6、配置云服务器安全组，添加6379端口（详情见 "[1-5）配置云服务器安全组](#1-5）配置云服务器安全组)"）
+    + 6、mysql命令启动、关闭、重启
+        ```
+       [root@andy ~]# service mysqld restart
+       Shutting down MySQL..      [  OK  ]
+       Starting MySQL.            [  OK  ]
+       [root@andy ~]# service mysqld stop
+       Shutting down MySQL..      [  OK  ]
+       [root@andy ~]# service mysqld start
+       Starting MySQL.            [  OK  ]
+       ```
+    + 7、配置云服务器安全组，添加6379端口（详情见 "[1-5）配置云服务器安全组](#1-5）配置云服务器安全组)"）
  
 ## 欢迎交流
 + QQ
