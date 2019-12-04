@@ -1,9 +1,10 @@
-**前提：小白学习阿里云服务器，记录笔记。我的云服务器 操作系统是   CentOS  7.6 64位。
-提醒：现阿里云双12活动即将开始：<br>
-1：）ECS云服务器，3年付仅3折，17元/月起 https://url.cn/5mOQsnH <br>
-2：）最高￥2000云产品通用代金券 https://url.cn/5xfEJZY <br>
-3：）【双12】主会场，低至1折 https://url.cn/5OePgVR <br>
-4：）十月主机爆款，限时抢2折 https://url.cn/5EERqA4 <br>
+** 前提：小白学习阿里云服务器，记录笔记。我的云服务器 操作系统是   CentOS  7.6 64位。<br>
+
+友情提示：现阿里云双12活动即将开始：<br>
+  1：）ECS云服务器，3年付仅3折，17元/月起 https://url.cn/5mOQsnH <br>
+  2：）最高￥2000云产品通用代金券 https://url.cn/5xfEJZY <br>
+  3：）【双12】主会场，低至1折 https://url.cn/5OePgVR <br>
+  4：）十月主机爆款，限时抢2折 https://url.cn/5EERqA4 <br>
 **
 
 # 1、云服务器ECS 安装开发环境
